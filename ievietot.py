@@ -17,5 +17,3 @@ try:
     print("flask-talisman konfigurēts veiksmīgi.")
 except Exception as e:
     print(f"Kļūda, konfigurējot flask-talisman: {e}")
-
-# Pārējais kods paliek nemainīgs

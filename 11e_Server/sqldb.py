@@ -22,6 +22,7 @@ cursor.execute('''
         kurpuss INTEGER
         apraksts TEXT
         kastes_nr TEXT
+        pieejama BOOLEAN
     )
     
     CREATE TABLE IF NOT EXISTS izsniegums (

@@ -15,6 +15,6 @@ for item in json_response:
     uni(item["name"])
     print(item["name"])
     #uni.append = item["name"]
-
+ 
 print("######################################################")
 print(uni.keys)

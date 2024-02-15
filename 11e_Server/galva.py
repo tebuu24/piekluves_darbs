@@ -5,6 +5,8 @@ from flask import url_for
 from flask import render_template
 from flask import json
 from flask import jsonify
+from flask import Flask, request, redirect
+
 
 app = Flask(__name__)
 
@@ -23,7 +25,17 @@ def uzruna():
       uzvards1 = request.args.get('uzvards')
       return vards1, uzvards1
   
-  
+#login lapa----
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    #parbaude
+    if username == 'liet' and password == 'lietuva':
+        return redirect('/sveiciens')
+    else:
+        return 'nepareiza login info'
 
 @app.route('/vards')
 def katevisauc():
@@ -33,30 +45,6 @@ def katevisauc():
 def dati():
   aa = {'name':"bumba",'vecums':"16"}
   return jsonify(aa)
-
-#----------------------------------------------------  
-# Lapa ar izkrītošo sarakstu.
-# Šo izsauc ar http://127.0.0.1:5000/saraksts
-@app.route('/virtuve')
-def virtuve():
-  return render_template("virtuve.html")
-# Rezervējam virtuves piederumus
-# Šo izsauc ar http://127.0.0.1:5000/rezerveshana
-@app.route('/rezerveshana')
-def rezerveshana():
-  piederumi = request.args.get('riiki')
-  skaits = request.args.get('skaits')
-  print("Izvēlētais piederums: ",piederumi)
-  print("Skaits: ",skaits)
-#------
-# Saglabāsim saņemtos datus teksta failā, bet var arī
-# datu bāzē. Izmantojam json formātu.
-  dati = {}
-  dati["v_piederums"] = piederumi
-  dati["skaits"] = skaits
-  with open("static/trauki.txt","a",encoding="UTF-8") as f1:
-    f1.write(json.dumps(dati))
-  return render_template("virtuve.html")
 
 # Tukšas formas izsaukums
 # Šo izsauc ar http://127.0.0.1:5000/personas

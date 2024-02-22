@@ -1,3 +1,4 @@
+/*smuki fontini*/
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,24 +6,13 @@ body {
     background-color: #f4f4f4;
 }
 
-
-.login-form {
-    position: relative;
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
+/*label stils*/
 label {
     display: block;
     font-weight: bold;
 }
 
+/*teksta un paroles kastes*/
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -32,6 +22,7 @@ input[type="password"] {
     box-sizing: border-box;
 }
 
+/*login poga --------------------------------------------------------------------*/
 button[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -40,40 +31,62 @@ button[type="submit"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s; /*neliels transition laiks lai smukak*/
 }
 
+/*kad pariet pari login pogai vina klust tumsaka*/
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* Other styles remain the same as before */
-
+/* login viss-------------------------------------*/
 .login-container {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('goose.jpg'); /* Replace 'goose.jpg' with the path to your goose image */
-    background-size: cover; /* Ensure the image covers the entire container */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    background-position: center; /* Center the image within the container */
+    background-image: url('kemeru_banans.jpg'); /*'xxxx.jpg' ir musu bildes nos, kas tiks izmantots */
+    background-size: cover; /* attēls pārklās visu fonu */
+    background-repeat: no-repeat; /* dazreiz problema ka atkartojas, sis to salabo*/
+    background-position: center; /* ta lai ir centra un musu zoss var but labi redzama :)  */
 }
 
+.admin-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('skolasgaitenis.jpg'); /*'xxxx.jpg' ir musu bildes nos, kas tiks izmantots */
+    background-size: cover; /* attēls pārklās visu fonu */
+    background-repeat: no-repeat; /* dazreiz problema ka atkartojas, sis to salabo*/
+    background-position: center; /* ta lai ir centra un musu zoss var but labi redzama :)  */
+}
 
-/* Other styles remain the same as before */
+/*login kaste*/
+.login-form {
+    position: relative;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/*ari loginaa, ta lai virsraksts smuki sedetu pareizajaa vietaa*/
+.form-group {
+    margin-bottom: 20px;
+}
 
 .hidden-button {
     position: absolute;
-    top: 10px; /* Adjust top position as needed */
-    left: 10px; /* Adjust left position as needed */
-    width: 10px; /* Adjust size of the dot as needed */
-    height: 15px; /* Adjust size of the dot as needed */
-    background-color: #000; /* Color of the dot */
-    border-radius: 50%; /* Make it a circle */
+    top: 10px; /* augsas pozicija, var mainit */
+    left: 10px; /* kreisa puse, var mainit ja vajag */
+    width: 10px; /* punktina saspiedums */
+    height: 15px; /* punktina augstums */
+    background-color: #000; /* punktina krasa */
+    border-radius: 50%; /* ta lai ir aplis */
     cursor: pointer;
-    opacity: 0; /* Initially hidden */
-    z-index: -1; /* Behind other elements */
+    opacity: 0; /* ta lai no sakuma ir slepts */
+    z-index: -1; /* aiz visiem citiem elem */
 }
 

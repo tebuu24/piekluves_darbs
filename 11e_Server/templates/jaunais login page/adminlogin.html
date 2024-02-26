@@ -1,13 +1,26 @@
-<html>
-  <head>
-    <title>Admin</title> 
-    <meta  charset="UTF-8" name="java" content="script"> 
-  </head>
-  <body>
-    <h1>Sveicināts/a!</h1>
-    <div>
-        <p>Sveiks adminstrator {{vards}} {{uzvards}}</p>
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administratora Pierakstīšanās</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <form class="login-form" action="redirect-page.html" method="POST">
+            <h2>Pierakstīšanās</h2>
+            <div class="form-group">
+                <label for="username">Lietotājvārds</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Parole</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Atslegojamies</button>
+        </form>
     </div>
-
-  </body>
+    </script>
+</body>
 </html>

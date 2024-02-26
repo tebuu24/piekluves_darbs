@@ -36,7 +36,7 @@ app = Flask(__name__)
  
 app.config['DATABASE'] = 'virtuve.db'  # Šeit norādiet savu datu bāzes nosaukumu
 app.config['SECRET_KEY'] = 'your_secret_key' # Šo frāzi izmanto šifrēšanai, jābūt pietiekami sarežģītai
-                                            # citi nedrīkst zināt
+                                             # citi nedrīkst zināt
  
 def get_db():
     db = getattr(g, '_database', None)
@@ -56,12 +56,12 @@ def close_db(error):
     if db is not None:
         db.close()
  
-# Izveidojiet vai savienojiet ar datu bāzi (ja vēl nav izveidota)
+# Izveidojiet vai savienojiet ar datu bāzi (ja vēl nav izveidota),XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 def create_or_connect_database():
     conn = sqlite3.connect('virtuve.db')
     return conn
  
-# Pievienojiet jaunu ierakstu tabulā "Pasutijumi"
+# Pievienojiet jaunu ierakstu tabulā "Pasutijumi" pie virtuve, kuru mes izdesam
 def pievienot_pasutijumu(conn, dati):
     cursor = conn.cursor()
     cursor.execute('''
@@ -70,7 +70,7 @@ def pievienot_pasutijumu(conn, dati):
     ''', (dati["vards"], dati["uzvards"], dati["skaits"], dati["tips"]))
     conn.commit()
  
-# Izgūst visus ierakstus no tabulas "Pasutijumi"
+# Izgūst visus ierakstus no tabulas "Pasutijumi" pie virtuve, kas tika izdzesta
 def izgut_pasutijumus(conn):
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Pasutijumi')
@@ -78,8 +78,6 @@ def izgut_pasutijumus(conn):
     print("Datu tabulas dati")
     print(pasutijumi)
     return pasutijumi
- 
- 
  
 @app.route('/',methods=['GET'])
 def root():
@@ -107,7 +105,7 @@ def dati():
   aa = {'name':"bumba",'vecums':"16"}
   return jsonify(aa)
  
-#----------------------------------------------------  
+#izdzesti failiXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
 # Lapa ar izkrītošo sarakstu.
 # Šo izsauc ar http://127.0.0.1:5000/saraksts
 @app.route('/virtuve')
@@ -128,7 +126,8 @@ def rezerveshana():
   with open("static/trauki.txt","a",encoding="UTF-8") as f1:
     f1.write(json.dumps(dati))
   return render_template("virtuve.html")
- 
+ #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 # Tukšas formas izsaukums
 # Šo izsauc ar http://127.0.0.1:5000/personas
 @app.route('/personas')

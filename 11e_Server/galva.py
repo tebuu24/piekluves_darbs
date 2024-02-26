@@ -47,6 +47,36 @@ def get_db():
 def init_db():
     with app.app_context():
         db = get_db()
+
+#pievienot-------------------------------------------------------------------------------------
+# SQLite connection
+conn = sqlite3.connect('musu_datubaze.db')
+
+cursor = conn.cursor()
+@app.route('/pievienot')
+def index():
+
+    return open('index.html').read()
+
+@app.route('/submit', methods=['POST'])
+def submit():
+
+    name = request.form['name']
+
+    surname = request.form['surname']
+
+    title = request.form['title']
+
+    password = request.form['password']
+
+
+    # Insert into the database    
+    cursor.execute('''INSERT INTO users (name, surname, title, password)
+                      VALUES (?, ?, ?, ?)''', (name, surname, title, password))
+    conn.commit() 
+    return 'User registered successfully!' 
+if __name__ == '__main__':
+  app.run(debug=True)
  
 # Šī ir Flask dekorācija, kas nosaka funkciju, kas tiks izpildīta pēc katras Flask
 # lietojumprogrammas konteksta darbības beigām. Nodrošina, lai datubāze nepaliek vaļā.

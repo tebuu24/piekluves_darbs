@@ -1,26 +1,22 @@
-<html>
-  <head>
-    <title>Datu ievads</title> 
-    <meta  charset="UTF-8" name="java" content="script"> 
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <div class="login-container">
-      <form class="login-form" action="http://127.0.0.1:5000/uzruna" method = "post">
-        <h2>Datu ievads</h2>
-        <div>
-          <img src="add-button.png" alt="Bilde" width="100" height="100">
-        </div>
-        <div class="form-group">
-          <label for="vards">Vārds:</label><br>
-          <input type="text" id="vards" name="vards" value=""><br>
-        </div>
-        <div class="form-group">
-          <label for="uzvards">Uzvārds:</label><br>
-          <input type="text" id="uzvards" name="uzvards" value=""><br>
-          <input type="submit" value="PIEVIENOT">
-        </div>
-      </form>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pievienot</title>
+</head>
+<body>
+<h1>Jauns lietotājs</h1>
+<form action="/submit" method="post">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name"><br><br>
+<label for="surname">Surname:</label>
+<input type="text" id="surname" name="surname"><br><br>
+<label for="title">Title:</label>
+<input type="text" id="title" name="title"><br><br>
+<label for="password">Password:</label>
+<input type="password" id="password" name="password"><br><br>
+<input type="submit" value="Submit">
+</form>
+</body>
 </html>

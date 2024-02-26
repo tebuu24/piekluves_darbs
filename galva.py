@@ -92,9 +92,7 @@ def uzruna():
    else:
       vards1 = request.args.get('vards')
       uzvards1 = request.args.get('uzvards')
-      return vards1, uzvards1
- 
- 
+      return vards1, uzvards1                                                                                                                                                                                                                                                          
  
 @app.route('/vards')
 def katevisauc():

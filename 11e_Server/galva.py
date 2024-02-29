@@ -6,6 +6,8 @@ from flask import render_template
 from flask import json
 from flask import jsonify
 import sqlite3          # importējam SQLite3
+from flask import request, redirect, flash
+import os
  
 app = Flask(__name__)
 '''
@@ -37,7 +39,22 @@ app = Flask(__name__)
 app.config['DATABASE'] = 'virtuve.db'  # Šeit norādiet savu datu bāzes nosaukumu
 app.config['SECRET_KEY'] = 'your_secret_key' # Šo frāzi izmanto šifrēšanai, jābūt pietiekami sarežģītai
                                             # citi nedrīkst zināt
- 
+# Funkcija, lai ģenerētu nejaušu noslēpumu atslēgu
+def generet_noslepuma_atslegu():
+    return os.urandom(24)
+
+# Iestatīt noslēpuma atslēgu Flask lietotnei
+app.config['SECRET_KEY'] = generet_noslepuma_atslegu()
+
+try:
+    # Mēģināt importēt flask-talisman
+    from flask_talisman import Talisman
+    Talisman(app)
+    print("flask-talisman konfigurēts veiksmīgi.")
+except Exception as e:
+    print(f"Kļūda, konfigurējot flask-talisman: {e}")
+
+#---------------------------------------------------------------------------------------------
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:

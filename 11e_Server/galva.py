@@ -57,11 +57,21 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/admin_panel')
+@app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
-    # You can add your admin panel logic here
-    return 'Admin Panel'
+    if request.method == 'POST':
+        vards = request.form['vards']
+        uzvards = request.form['uzvards']
+        tituls = request.form['tituls']
+        parole = request.form['parole']
 
+        # Insert data into the darbinieki table
+        cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
+                       (vards, uzvards, tituls, hash_password(parole)))
+        conn.commit()
+        flash('Darbinieks veiksmīgi pievienots!', 'success')
+
+    return render_template('admin.html')
 
 # Atslēgu informācijas route
 @app.route('/atslegas')
@@ -100,8 +110,6 @@ def write_to_file(data, filename):
         print(f"Data successfully written to {filename}")
     except Exception as e:
         print(f"Error writing data to {filename}: {e}")
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -56,29 +56,7 @@ def close_db(error):
     if db is not None:
         db.close()
  
-# Izveidojiet vai savienojiet ar datu bāzi (ja vēl nav izveidota),XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-def create_or_connect_database():
-    conn = sqlite3.connect('virtuve.db')
-    return conn
- 
-# Pievienojiet jaunu ierakstu tabulā "Pasutijumi" pie virtuve, kuru mes izdesam
-def pievienot_pasutijumu(conn, dati):
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO Pasutijums (vards, uzvards, skaits, tips)
-        VALUES (?, ?, ?, ?)
-    ''', (dati["vards"], dati["uzvards"], dati["skaits"], dati["tips"]))
-    conn.commit()
- 
-# Izgūst visus ierakstus no tabulas "Pasutijumi" pie virtuve, kas tika izdzesta
-def izgut_pasutijumus(conn):
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM Pasutijumi')
-    pasutijumi = cursor.fetchall()
-    print("Datu tabulas dati")
-    print(pasutijumi)
-    return pasutijumi
- 
+
 @app.route('/',methods=['GET'])
 def root():
     return render_template("tests.html")
@@ -103,28 +81,7 @@ def dati():
   aa = {'name':"bumba",'vecums':"16"}
   return jsonify(aa)
  
-#izdzesti failiXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
-# Lapa ar izkrītošo sarakstu.
-# Šo izsauc ar http://127.0.0.1:5000/saraksts
-@app.route('/virtuve')
-def virtuve():
-  return render_template("virtuve.html")
-# Rezervējam virtuves piederumus
-# Šo izsauc ar http://127.0.0.1:5000/rezerveshana
-@app.route('/rezerveshana')
-def rezerveshana():
-  piederumi = request.args.get('riiki')
-  skaits = request.args.get('skaits')
-#------
-# Saglabāsim saņemtos datus teksta failā, bet var arī
-# datu bāzē. Izmantojam json formātu.
-  dati = {}
-  dati["v_piederums"] = piederumi
-  dati["skaits"] = skaits
-  with open("static/trauki.txt","a",encoding="UTF-8") as f1:
-    f1.write(json.dumps(dati))
-  return render_template("virtuve.html")
- #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 
 # Tukšas formas izsaukums
 # Šo izsauc ar http://127.0.0.1:5000/personas

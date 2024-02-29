@@ -86,31 +86,6 @@ def close_db(error):
     if db is not None:
         db.close()
  
-# Izveidojiet vai savienojiet ar datu bāzi (ja vēl nav izveidota)
-def create_or_connect_database():
-    conn = sqlite3.connect('virtuve.db')
-    return conn
- 
-# Pievienojiet jaunu ierakstu tabulā "Pasutijumi"
-def pievienot_pasutijumu(conn, dati):
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO Pasutijums (vards, uzvards, skaits, tips)
-        VALUES (?, ?, ?, ?)
-    ''', (dati["vards"], dati["uzvards"], dati["skaits"], dati["tips"]))
-    conn.commit()
- 
-# Izgūst visus ierakstus no tabulas "Pasutijumi"
-def izgut_pasutijumus(conn):
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM Pasutijumi')
-    pasutijumi = cursor.fetchall()
-    print("Datu tabulas dati")
-    print(pasutijumi)
-    return pasutijumi
- 
- 
- 
 @app.route('/',methods=['GET'])
 def root():
     return render_template("tests.html")
@@ -126,8 +101,6 @@ def uzruna():
       uzvards1 = request.args.get('uzvards')
       return vards1, uzvards1
  
- 
- 
 @app.route('/vards')
 def katevisauc():
   return render_template("katevisauc.html")
@@ -136,28 +109,6 @@ def katevisauc():
 def dati():
   aa = {'name':"bumba",'vecums':"16"}
   return jsonify(aa)
- 
-#----------------------------------------------------  
-# Lapa ar izkrītošo sarakstu.
-# Šo izsauc ar http://127.0.0.1:5000/saraksts
-@app.route('/virtuve')
-def virtuve():
-  return render_template("virtuve.html")
-# Rezervējam virtuves piederumus
-# Šo izsauc ar http://127.0.0.1:5000/rezerveshana
-@app.route('/rezerveshana')
-def rezerveshana():
-  piederumi = request.args.get('riiki')
-  skaits = request.args.get('skaits')
-#------
-# Saglabāsim saņemtos datus teksta failā, bet var arī
-# datu bāzē. Izmantojam json formātu.
-  dati = {}
-  dati["v_piederums"] = piederumi
-  dati["skaits"] = skaits
-  with open("static/trauki.txt","a",encoding="UTF-8") as f1:
-    f1.write(json.dumps(dati))
-  return render_template("virtuve.html")
  
 # Tukšas formas izsaukums
 # Šo izsauc ar http://127.0.0.1:5000/personas
@@ -169,30 +120,6 @@ def personas():
       personas.append(rinda)
   return jsonify({"personas": personas})
 
-
-#----------------------------------------------------------------------
-
-# Render the login page
-@app.route('/login-page')
-def login_page():
-    return render_template('login.html')
-
-# Handle login request
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.form
-    # Add your login logic here
-    # Example: check username and password from the database
-    username = data['lietotajvards']
-    password = data['parole']
-    # Example response
-    if username == 'user' and password == 'pass':
-        return jsonify({'message': 'Success'}), 200
-    else:
-        return jsonify({'message': 'Incorrect username or password'}), 401
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 #----------------------------------------------------------------------
 # Paraugs Fetch apstrādei
@@ -225,8 +152,43 @@ def dataa():
 def visi():
   return render_template("personas.html")
  
-#----------------------------------------------------      
+#----------------------------------------------------------------------
+
+# Render the login page
+@app.route('/login-page')
+def login_page():
+    return render_template('login.html')
+
+# Handle login request
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.form
+    # Add your login logic here
+    # Example: check username and password from the database
+    username = data['lietotajvards']
+    password = data['parole']
+    # Example response
+    if username == 'user' and password == 'pass':
+        return jsonify({'message': 'Success'}), 200
+    else:
+        return jsonify({'message': 'Incorrect username or password'}), 401
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+#----------------------------------------------------------------------
+# Tukšas formas izsaukums
+# Šo izsauc ar http://127.0.0.1:5000/personas
+@app.route('/personas')
+def personas():
+  personas = []
+  with open("static/personas.txt","r",encoding="UTF-8") as f1:
+    for rinda in f1:
+      personas.append(rinda)
+  return jsonify({"personas": personas})
  
+#---------------------------------------------------- 
+
 @app.route('/tests')
 def health():
   return render_template("tests.html")
@@ -234,5 +196,3 @@ def health():
 if __name__ == '__main__':
   init_db() #
   app.run(debug=True,port=5000) # ,host='0.0.0.0' host='0.0.0.0' - datora IP adrese
-
-

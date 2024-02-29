@@ -42,30 +42,26 @@ conn.commit()
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        vards = request.form['vards']
-        parole = request.form['parole']
+        username = request.form['username']
+        password = request.form['password']
 
-        cursor.execute("SELECT * FROM darbinieki WHERE vards = ?", (vards,))
-        user = cursor.fetchone()
-
-        if user and user[4] == hash_password(parole):
+        # Check if username and password are correct (you can replace this with your authentication logic)
+        if username == 'admin' and password == 'adminpassword':
             flash('Veiksmīga pieteikšanās!', 'success')
-            return redirect(url_for('atslegas'))
+            return redirect(url_for('admin_panel'))
         else:
-            flash('Nepareiza lietotāja vārds vai parole.', 'danger')
+            flash('Nepareiza lietotājvārds vai parole.', 'danger')
 
     return render_template('login.html')
 
-# Admin panel route
-@app.route('/admin')
+@app.route('/admin_panel')
 def admin_panel():
-    cursor.execute("SELECT * FROM darbinieki")
-    darbinieki = cursor.fetchall()
-    return render_template('admin.html', darbinieki=darbinieki)
+    # You can add your admin panel logic here
+    return 'Admin Panel'
+
 
 # Atslēgu informācijas route
 @app.route('/atslegas')

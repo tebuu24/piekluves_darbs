@@ -95,5 +95,17 @@ print("Izsniegums data:")
 for row in izsniegums_data:
     print(row)
 
+# Function to write data to a text file
+def write_to_file(data, filename):
+    try:
+        with open(filename, 'w') as f:
+            for row in data:
+                f.write(','.join(str(item) for item in row) + '\n')
+        print(f"Data successfully written to {filename}")
+    except Exception as e:
+        print(f"Error writing data to {filename}: {e}")
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

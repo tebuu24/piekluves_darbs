@@ -57,7 +57,7 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/admin_panel', methods=['GET', 'POST'])
+@app.route('/pievienot', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
         vards = request.form['vards']

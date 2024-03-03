@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pievienot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pievienot</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Jauns lietotājs</h1>
-<form action="/submit" method="post">
-<label for="name">Name:</label>
-<input type="text" id="name" name="name"><br><br>
-<label for="surname">Surname:</label>
-<input type="text" id="surname" name="surname"><br><br>
-<label for="title">Title:</label>
-<input type="text" id="title" name="title"><br><br>
-<label for="password">Password:</label>
-<input type="password" id="password" name="password"><br><br>
-<input type="submit" value="Submit">
-</form>
+    <div class="container">
+        <div class="admin-container">
+            <form action="/submit" method="post">
+                <h1>Jauns lietotājs</h1>
+                <label for="vards">Vārds:</label>
+                <input type="text" id="vards" name="vards">
+                <label for="uzvards">Uzvārds:</label>
+                <input type="text" id="uzvards" name="uzvards">
+                <label for="tituls">Tituls:</label>
+                <input type="text" id="tituls" name="tituls">
+                <label for="parole">Parole:</label>
+                <input type="password" id="parole" name="parole">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -9,7 +9,14 @@ body {
 /*label stils*/
 label {
     display: block;
-    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/*heading stils*/
+h1 {
+    text-align: center;
+    color: #333;
 }
 
 /*teksta un paroles kastes*/
@@ -17,11 +24,34 @@ input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 /*login poga --------------------------------------------------------------------*/
 button[type="submit"] {
     width: 100%;
@@ -43,15 +73,16 @@ button[type="submit"]:hover {
 .login-container {
     position: relative;
     display: flex;
+    background-image: url('kemeru_banans.jpg');
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('kemeru_banans.jpg'); /*'xxxx.jpg' ir musu bildes nos, kas tiks izmantots */
-    background-size: cover; /* attēls pārklās visu fonu */
-    background-repeat: no-repeat; /* dazreiz problema ka atkartojas, sis to salabo*/
-    background-position: center; /* ta lai ir centra un musu zoss var but labi redzama :)  */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    border-radius: 8px;
 }
-
 .admin-container {
     position: relative;
     display: flex;
@@ -89,4 +120,3 @@ button[type="submit"]:hover {
     opacity: 0; /* ta lai no sakuma ir slepts */
     z-index: -1; /* aiz visiem citiem elem */
 }
-

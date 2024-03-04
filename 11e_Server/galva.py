@@ -3,13 +3,13 @@ import sqlite3
 import hashlib
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'jūsu_slēptā_atslēga'
 
-# Database initialization
+# Datubāzes inicializācija
 conn = sqlite3.connect('darbinieki.db', check_same_thread=False)
 cursor = conn.cursor()
 
-# Create tables if not exists
+# Izveido tabulas, ja tās vēl neeksistē
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS darbinieki (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,24 +38,46 @@ cursor.execute('''
 ''')
 conn.commit()
 
-# Password hashing function
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+# Funkcija parolei hashēšanai
+def hash_parole(parole):
+    return hashlib.sha256(parole.encode()).hexdigest()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        lietotajvards = request.form['lietotajvards']
+        parole = request.form['parole']
 
-        # Check if username and password are correct (you can replace this with your authentication logic)
-        if username == 'admin' and password == 'adminpassword':
+        # Pārbauda, vai lietotājvārds un parole ir pareizi
+        if lietotajvards == 'admin' and parole == 'adminparole':
             flash('Veiksmīga pieteikšanās!', 'success')
-            return redirect(url_for('admin_panel'))
+            return redirect(url_for('admin_panel'))  # Novirza uz admin paneļa lapu
         else:
-            flash('Nepareiza lietotājvārds vai parole.', 'danger')
+            # Pārbauda, vai lietotājs eksistē datubāzē
+            cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND parole = ?", (lietotajvards, hash_parole(parole)))
+            lietotajs = cursor.fetchone()
+            if lietotajs:
+                flash('Veiksmīga pieteikšanās!', 'success')
+                return redirect(url_for('atslegas'))  # Novirza uz atslēgu lapu
+            else:
+                flash('Nepareizs lietotājvārds vai parole.', 'danger')
 
     return render_template('login.html')
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        lietotajvards = request.form['lietotajvards']
+        parole = request.form['parole']
+
+        # Pārbauda, vai lietotājvārds un parole ir pareizi adminam
+        if lietotajvards == 'admin' and parole == 'adminparole':
+            flash('Veiksmīga pieteikšanās!', 'success')
+            return redirect(url_for('admin_panel'))  # Novirza uz admin paneļa lapu
+        else:
+            flash('Nepareizs lietotājvārds vai parole.', 'danger')
+
+    return render_template('admin.html')
 
 @app.route('/pievienot', methods=['GET', 'POST'])
 def admin_panel():
@@ -65,13 +87,13 @@ def admin_panel():
         tituls = request.form['tituls']
         parole = request.form['parole']
 
-        # Insert data into the darbinieki table
+        # Ievieto datus tabulā darbinieki
         cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
-                       (vards, uzvards, tituls, hash_password(parole)))
+                       (vards, uzvards, tituls, hash_parole(parole)))
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
-    return render_template('admin.html')
+    return render_template('pievonot.html')
 
 # Atslēgu informācijas route
 @app.route('/atslegas')
@@ -80,36 +102,36 @@ def atslegas():
     atslegas = cursor.fetchall()
     return render_template('atslegas.html', atslegas=atslegas)
 
-# Print data from the "darbinieki" table
+# Funkcija, lai izdrukātu datus no "darbinieki" tabulas
 cursor.execute("SELECT * FROM darbinieki")
 darbinieki_data = cursor.fetchall()
-print("Darbinieki data:")
+print("Darbinieki dati:")
 for row in darbinieki_data:
     print(row)
 
-# Print data from the "atslegas" table
+# Funkcija, lai izdrukātu datus no "atslegas" tabulas
 cursor.execute("SELECT * FROM atslegas")
 atslegas_data = cursor.fetchall()
-print("Atslegas data:")
+print("Atslēgu dati:")
 for row in atslegas_data:
     print(row)
 
-# Print data from the "izsniegums" table
+# Funkcija, lai izdrukātu datus no "izsniegums" tabulas
 cursor.execute("SELECT * FROM izsniegums")
 izsniegums_data = cursor.fetchall()
-print("Izsniegums data:")
+print("Izsnieguma dati:")
 for row in izsniegums_data:
     print(row)
 
-# Function to write data to a text file
-def write_to_file(data, filename):
+# Funkcija, lai ierakstītu datus failā
+def rakstīt_failā(dati, fails):
     try:
-        with open(filename, 'w') as f:
-            for row in data:
-                f.write(','.join(str(item) for item in row) + '\n')
-        print(f"Data successfully written to {filename}")
+        with open(fails, 'w') as f:
+            for row in dati:
+                f.write(','.join(str(viens) for viens in row) + '\n')
+        print(f"Dati veiksmīgi ierakstīti failā {fails}")
     except Exception as e:
-        print(f"Error writing data to {filename}: {e}")
+        print(f"Kļūda, rakstot datus failā {fails}: {e}")
 
 if __name__ == '__main__':
     app.run(debug=True)

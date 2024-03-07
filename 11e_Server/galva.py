@@ -79,7 +79,7 @@ def admin():
 
     return render_template('admin.html')
 
-@app.route('/pievienot', methods=['GET', 'POST'])
+@app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
         vards = request.form['vards']
@@ -93,7 +93,7 @@ def admin_panel():
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
-    return render_template('pievienot.html')
+    return render_template('admin_panel.html')
 
 # Atslēgu informācijas route
 @app.route('/atslegas')
@@ -103,35 +103,35 @@ def atslegas():
     return render_template('atslegas.html', atslegas=atslegas)
 
 # Funkcija, lai izdrukātu datus no "darbinieki" tabulas
-cursor.execute("SELECT * FROM darbinieki")
-darbinieki_data = cursor.fetchall()
-print("Darbinieki dati:")
-for row in darbinieki_data:
-    print(row)
+# cursor.execute("SELECT * FROM darbinieki")
+# darbinieki_data = cursor.fetchall()
+# print("Darbinieki dati:")
+# for row in darbinieki_data:
+#     print(row)
 
 # Funkcija, lai izdrukātu datus no "atslegas" tabulas
-cursor.execute("SELECT * FROM atslegas")
-atslegas_data = cursor.fetchall()
-print("Atslēgu dati:")
-for row in atslegas_data:
-    print(row)
+# cursor.execute("SELECT * FROM atslegas")
+# atslegas_data = cursor.fetchall()
+# print("Atslēgu dati:")
+# for row in atslegas_data:
+#     print(row)
 
 # Funkcija, lai izdrukātu datus no "izsniegums" tabulas
-cursor.execute("SELECT * FROM izsniegums")
-izsniegums_data = cursor.fetchall()
-print("Izsnieguma dati:")
-for row in izsniegums_data:
-    print(row)
+# cursor.execute("SELECT * FROM izsniegums")
+# izsniegums_data = cursor.fetchall()
+# print("Izsnieguma dati:")
+# for row in izsniegums_data:
+#     print(row)
 
 # Funkcija, lai ierakstītu datus failā
-def rakstīt_failā(dati, fails):
-    try:
-        with open(fails, 'w') as f:
-            for row in dati:
-                f.write(','.join(str(viens) for viens in row) + '\n')
-        print(f"Dati veiksmīgi ierakstīti failā {fails}")
-    except Exception as e:
-        print(f"Kļūda, rakstot datus failā {fails}: {e}")
+# def rakstīt_failā(dati, fails):
+#     try:
+#         with open(fails, 'w') as f:
+#             for row in dati:
+#                 f.write(','.join(str(viens) for viens in row) + '\n')
+#         print(f"Dati veiksmīgi ierakstīti failā {fails}")
+#     except Exception as e:
+#         print(f"Kļūda, rakstot datus failā {fails}: {e}")
 
 if __name__ == '__main__':
     app.run(debug=True)

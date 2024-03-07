@@ -93,7 +93,7 @@ def admin_panel():
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
-    return render_template('pievonot.html')
+    return render_template('pievienot.html')
 
 # Atslēgu informācijas route
 @app.route('/atslegas')

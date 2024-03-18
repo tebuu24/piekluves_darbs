@@ -12,27 +12,30 @@ cursor = conn.cursor()
 # Izveido tabulas, ja tās vēl neeksistē
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS darbinieki (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        darbinieks_id INTEGER PRIMARY KEY AUTOINCREMENT,
         vards TEXT NOT NULL,
         uzvards TEXT NOT NULL,
         tituls TEXT NOT NULL,
         parole TEXT NOT NULL
     )
 ''')
+
+#pie pieejamības vajadzētu pārveidot uz boolean!
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS atslegas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        atslegas_id INTEGER PRIMARY KEY AUTOINCREMENT,
         atslegas_numurs TEXT NOT NULL,
-        pieejamiba INTEGER NOT NULL,
-        komentars TEXT
+        pieejamiba INTEGER NOT NULL,   
+        komentars TEXT,
+        kastes_nr INTEGER NOT NULL
     )
 ''')
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS izsniegums (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        lietotajs TEXT NOT NULL,
-        atslegas_numurs TEXT NOT NULL,
-        izsniegts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        izsniegums_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        darbinieka_id INTEGER NOT NULL,
+        atslegas_id TEXT NOT NULL,
+        izsnieguma_laiks TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         komentars TEXT
     )
 ''')
@@ -42,13 +45,14 @@ conn.commit()
 def hash_parole(parole):
     return hashlib.sha256(parole.encode()).hexdigest()
 
+#lietotāja pieslēgšanās lapa
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         lietotajvards = request.form['lietotajvards']
         parole = request.form['parole']
 
-        # Pārbauda, vai lietotājvārds un parole ir pareizi
+        # Pārbauda, vai lietotājvārds un parole ir admin
         if lietotajvards == 'admin' and parole == 'adminparole':
             flash('Veiksmīga pieteikšanās!', 'success')
             return redirect(url_for('admin_panel'))  # Novirza uz admin paneļa lapu
@@ -64,6 +68,7 @@ def login():
 
     return render_template('login.html')
 
+#admin pieslēgšanās lapa
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == 'POST':
@@ -79,6 +84,7 @@ def admin():
 
     return render_template('admin.html')
 
+#admin paneļa lapa, kur admin var veidot jaunu lietotāju un apskatīt un rediģēt izsnieguma un darbinieka datubāzes datus
 @app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
@@ -132,6 +138,8 @@ def atslegas():
 #         print(f"Dati veiksmīgi ierakstīti failā {fails}")
 #     except Exception as e:
 #         print(f"Kļūda, rakstot datus failā {fails}: {e}")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,26 +1,39 @@
 <!DOCTYPE html>
-<html lang="lv">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pievienot</title>
+    <title>Admin Panelis</title>
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
     <div class="container">
         <div class="admin-container">
-            <form action="/submit" method="post">
-                <h1>Jauns lietotājs: </h1>
-                <label for="vards">Vārds:</label>
-                <input type="text" id="vards" name="vards">
-                <label for="uzvards">Uzvārds:</label>
-                <input type="text" id="uzvards" name="uzvards">
-                <label for="tituls">Tituls:</label>
-                <input type="text" id="tituls" name="tituls">
-                <label for="parole">Parole:</label>
-                <input type="password" id="parole" name="parole">
-                <input type="submit" value="Submit">
-            </form>
+            <!-- Kreisais konteineris - Lietotāju saraksts -->
+            <div class="admin-box">
+                <h2>Lietotāju saraksts</h2>
+                <!-- Attēlot lietotāju sarakstu un rediģēšanas pogas -->
+            </div>
+
+            <!-- Vidējais konteineris - Pievienot jaunu lietotāju -->
+            <div class="admin-box add-user-box">
+                <h2>Pievienot jaunu lietotāju</h2>
+                <form action="/admin_panel" method="post">
+                    <!-- Forma, lai pievienotu jaunu lietotāju -->
+                    <input type="text" name="vards" placeholder="Vārds" required><br>
+                    <input type="text" name="uzvards" placeholder="Uzvārds" required><br>
+                    <input type="text" name="tituls" placeholder="Tituls" required><br>
+                    <input type="password" name="parole" placeholder="Parole" required><br>
+                    <input type="password" name="parole_atskaites" placeholder="Atkārtota parole" required><br>
+                    <button type="submit">Pievienot lietotāju</button>
+                </form>
+            </div>
+
+            <!-- Labais konteineris - Izņemšanas saraksts -->
+            <div class="admin-box">
+                <h2>Izsniegumu saraksts</h2>
+                <!-- Attēlot sarakstu -->
+            </div>
         </div>
     </div>
 </body>

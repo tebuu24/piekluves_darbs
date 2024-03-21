@@ -20,12 +20,12 @@ cursor.execute('''
     )
 ''')
 
-#pie pieejamības vajadzētu pārveidot uz boolean!
+# pie pieejamības vajadzētu pārveidot uz boolean!
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS atslegas (
         atslegas_id INTEGER PRIMARY KEY AUTOINCREMENT,
         atslegas_numurs TEXT NOT NULL,
-        pieejamiba INTEGER NOT NULL,   
+        pieejamiba BOOLEAN NOT NULL,   
         komentars TEXT,
         kastes_nr INTEGER NOT NULL
     )
@@ -92,6 +92,12 @@ def admin_panel():
         uzvards = request.form['uzvards']
         tituls = request.form['tituls']
         parole = request.form['parole']
+        parole_atskaites = request.form['parole_atskaites']
+
+        # Pārbauda, vai paroles sakrīt
+        if parole != parole_atskaites:
+            flash('Paroles nesakrīt!', 'danger')
+            return redirect(url_for('admin_panel'))
 
         # Ievieto datus tabulā darbinieki
         cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
@@ -99,6 +105,7 @@ def admin_panel():
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
+    # Atgriež admin_panel lapu
     return render_template('admin_panel.html')
 
 # Atslēgu informācijas route
@@ -106,40 +113,8 @@ def admin_panel():
 def atslegas():
     cursor.execute("SELECT * FROM atslegas")
     atslegas = cursor.fetchall()
+
     return render_template('atslegas.html', atslegas=atslegas)
-
-# Funkcija, lai izdrukātu datus no "darbinieki" tabulas
-# cursor.execute("SELECT * FROM darbinieki")
-# darbinieki_data = cursor.fetchall()
-# print("Darbinieki dati:")
-# for row in darbinieki_data:
-#     print(row)
-
-# Funkcija, lai izdrukātu datus no "atslegas" tabulas
-# cursor.execute("SELECT * FROM atslegas")
-# atslegas_data = cursor.fetchall()
-# print("Atslēgu dati:")
-# for row in atslegas_data:
-#     print(row)
-
-# Funkcija, lai izdrukātu datus no "izsniegums" tabulas
-# cursor.execute("SELECT * FROM izsniegums")
-# izsniegums_data = cursor.fetchall()
-# print("Izsnieguma dati:")
-# for row in izsniegums_data:
-#     print(row)
-
-# Funkcija, lai ierakstītu datus failā
-# def rakstīt_failā(dati, fails):
-#     try:
-#         with open(fails, 'w') as f:
-#             for row in dati:
-#                 f.write(','.join(str(viens) for viens in row) + '\n')
-#         print(f"Dati veiksmīgi ierakstīti failā {fails}")
-#     except Exception as e:
-#         print(f"Kļūda, rakstot datus failā {fails}: {e}")
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

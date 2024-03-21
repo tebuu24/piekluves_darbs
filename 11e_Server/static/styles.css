@@ -120,3 +120,35 @@ button[type="submit"]:hover {
     opacity: 0; /* ta lai no sakuma ir slepts */
     z-index: -1; /* aiz visiem citiem elem */
 }
+
+
+
+.container {
+    display: flex;
+    justify-content: center; /* Horizontāli centrs */
+    align-items: center; /* Vertikāli centrs */
+    height: 100vh;
+    margin: 0; /* Set margins to 0 */
+    background-color: rgba(255, 255, 255, 0); 
+}
+
+.admin-container {
+    display: flex;
+    justify-content: space-around; /* Lai konteineri būtu vienmērīgi izkaisīti */
+    align-items: center;
+    width: 100%;
+    background-image: url('skolasgaitenis.jpg');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center;
+}
+
+.admin-box {
+    flex: 1;
+    background-color: rgb(255, 255, 255); 
+    padding: 20px;
+    margin: 10px; /* Atstarpes starp konteineriem */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+

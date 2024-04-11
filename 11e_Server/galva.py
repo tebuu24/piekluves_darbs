@@ -30,6 +30,7 @@ cursor.execute('''
         kastes_nr INTEGER NOT NULL
     )
 ''')
+
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS izsniegums (
         izsniegums_id INTEGER PRIMARY KEY AUTOINCREMENT,

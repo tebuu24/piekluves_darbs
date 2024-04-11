@@ -152,3 +152,12 @@ button[type="submit"]:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Stils kreisajam konteinerim */
+.left-container {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.8); /* Caurspīdīga fona krāsa */
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

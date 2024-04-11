@@ -84,7 +84,7 @@ def admin():
 
     return render_template('admin.html')
 
-#admin paneļa lapa, kur admin var veidot jaunu lietotāju un apskatīt un rediģēt izsnieguma un darbinieka datubāzes datus
+#admin paneļa lapa ar darbinieka datiem
 @app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
@@ -105,8 +105,11 @@ def admin_panel():
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
-    # Atgriež admin_panel lapu
-    return render_template('admin_panel.html')
+    # Atgriež admin_panel lapu ar visiem esošajiem darbiniekiem
+    cursor.execute("SELECT * FROM darbinieki")
+    darbinieki = cursor.fetchall()
+    return render_template('admin_panel.html', darbinieki=darbinieki)
+
 
 # Atslēgu informācijas route
 @app.route('/atslegas')

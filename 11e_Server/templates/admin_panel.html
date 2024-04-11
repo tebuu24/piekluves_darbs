@@ -10,33 +10,31 @@
     <div class="container">
         <div class="admin-container">
             <!-- Kreisais konteineris - Lietotāju saraksts -->
-            <!-- Kreisais konteineris - Lietotāju saraksts -->
             <div class="admin-box left-container">
                 <h2>Lietotāju saraksts</h2>
                 <table>
-                    <!-- Table with user data -->
+                    <!-- Lietotāju tabula -->
                     <thead>
                         <tr>
                             <th>Vārds</th>
                             <th>Uzvārds</th>
                             <th>Tituls</th>
-                            <!-- Additional columns from the database -->
+                            <th>Parole</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Output data from the database here -->
+                        <!-- Lietotāju saraksts no datubāzes -->
                         {% for darbinieks in darbinieki %}
                             <tr>
                                 <td>{{ darbinieks[1] }}</td>
                                 <td>{{ darbinieks[2] }}</td>
                                 <td>{{ darbinieks[3] }}</td>
-                                <!-- Additional columns from the database -->
+                                <td>{{ darbinieks[4] }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-
 
             <!-- Vidējais konteineris - Pievienot jaunu lietotāju -->
             <div class="admin-box add-user-box">

@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 import sqlite3
-import hashlib
 
 app = Flask(__name__)
 app.secret_key = 'jūsu_slēptā_atslēga'
@@ -20,7 +19,6 @@ cursor.execute('''
     )
 ''')
 
-# pie pieejamības vajadzētu pārveidot uz boolean!
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS atslegas (
         atslegas_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,10 +40,6 @@ cursor.execute('''
 ''')
 conn.commit()
 
-# Funkcija parolei hashēšanai
-def hash_parole(parole):
-    return hashlib.sha256(parole.encode()).hexdigest()
-
 #lietotāja pieslēgšanās lapa
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -59,7 +53,7 @@ def login():
             return redirect(url_for('admin_panel'))  # Novirza uz admin paneļa lapu
         else:
             # Pārbauda, vai lietotājs eksistē datubāzē
-            cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND parole = ?", (lietotajvards, hash_parole(parole)))
+            cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND parole = ?", (lietotajvards, parole))
             lietotajs = cursor.fetchone()
             if lietotajs:
                 flash('Veiksmīga pieteikšanās!', 'success')
@@ -102,7 +96,7 @@ def admin_panel():
 
         # Insert data into darbinieki table
         cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
-                       (vards, uzvards, tituls, hash_parole(parole)))
+                       (vards, uzvards, tituls, parole))
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
@@ -110,7 +104,6 @@ def admin_panel():
     cursor.execute("SELECT * FROM darbinieki")
     darbinieki = cursor.fetchall()
     return render_template('admin_panel.html', darbinieki=darbinieki)
-
 
 
 # Atslēgu informācijas route

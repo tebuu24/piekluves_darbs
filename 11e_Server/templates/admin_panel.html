@@ -39,15 +39,28 @@
             <!-- Vidējais konteineris - Pievienot jaunu lietotāju -->
             <div class="admin-box add-user-box">
                 <h2>Pievienot jaunu lietotāju</h2>
-                <form action="/admin_panel" method="post">
+                <form id="myForm" action="/admin_panel" method="post">
                     <!-- Forma, lai pievienotu jaunu lietotāju -->
                     <input type="text" name="vards" placeholder="Vārds" required><br>
                     <input type="text" name="uzvards" placeholder="Uzvārds" required><br>
                     <input type="text" name="tituls" placeholder="Tituls" required><br>
-                    <input type="password" name="parole" placeholder="Parole" required><br>
-                    <input type="password" name="parole_atskaites" placeholder="Atkārtota parole" required><br>
+                    <input type="password" id="parole" name="parole" placeholder="Parole" required><br>
+                    <input type="password" id="parole_atskaites" name="parole_atskaites" placeholder="Atkārtota parole" required><br>
                     <button type="submit">Pievienot lietotāju</button>
                 </form>
+                
+                <script>
+                document.getElementById('myForm').addEventListener('submit', function(event) {
+                    var parole = document.getElementById('parole').value;
+                    var parole_atskaites = document.getElementById('parole_atskaites').value;
+                
+                    if (parole != parole_atskaites) {
+                        alert('Paroles nav vienādas!');
+                        event.preventDefault();
+                    }
+                });
+                </script>
+                
             </div>
 
             <!-- Labais konteineris - Izņemšanas saraksts -->

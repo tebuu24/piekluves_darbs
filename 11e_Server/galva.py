@@ -85,7 +85,7 @@ def admin():
 
     return render_template('admin.html')
 
-#admin paneļa lapa ar darbinieka datiem
+# Admin panel page with employee data
 @app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
@@ -95,21 +95,22 @@ def admin_panel():
         parole = request.form['parole']
         parole_atskaites = request.form['parole_atskaites']
 
-        # Pārbauda, vai paroles sakrīt
+        # Check if passwords match
         if parole != parole_atskaites:
             flash('Paroles nesakrīt!', 'danger')
             return redirect(url_for('admin_panel'))
 
-        # Ievieto datus tabulā darbinieki
+        # Insert data into darbinieki table
         cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
                        (vards, uzvards, tituls, hash_parole(parole)))
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
 
-    # Atgriež admin_panel lapu ar visiem esošajiem darbiniekiem
+    # Fetch all employees from darbinieki table
     cursor.execute("SELECT * FROM darbinieki")
     darbinieki = cursor.fetchall()
     return render_template('admin_panel.html', darbinieki=darbinieki)
+
 
 
 # Atslēgu informācijas route

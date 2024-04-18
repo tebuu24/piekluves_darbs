@@ -56,15 +56,53 @@
                 </form>
                 
                 <script>
-                document.getElementById('myForm').addEventListener('submit', function(event) {
-                    var parole = document.getElementById('parole').value;
-                    var parole_atskaites = document.getElementById('parole_atskaites').value;
-                
-                    if (parole != parole_atskaites) {
-                        alert('Paroles nav vienādas!');
-                        event.preventDefault();
+                    document.getElementById('myForm').addEventListener('submit', function(event) {
+                        var parole = document.getElementById('parole').value;
+                        var parole_atskaites = document.getElementById('parole_atskaites').value;
+                    
+                        if (parole != parole_atskaites) {
+                            alert('Paroles nav vienādas!');
+                            event.preventDefault();
+                        }
+                    });
+                    
+                function editUser(userId) {
+                    // Lietotāju datu ieguve
+                    fetch(`/get_user/${userId}`)
+                        .then(response => response.json())
+                        .then(user => {
+                            // Lietotāju datu ievade laukos
+                            document.getElementById('vards').value = user.vards;
+                            document.getElementById('uzvards').value = user.uzvards;
+                            document.getElementById('tituls').value = user.tituls;
+                            document.getElementById('parole').value = user.parole;
+                            // edit forma
+                            document.getElementById('editForm').style.display = 'block';
+                            document.getElementById('editForm').action = `/edit_user/${userId}`;
+                        });
+                }
+
+                function deleteUser(userId) {
+                    // Apstiprināt dzēšanu
+                    if (confirm('Vai jūs vēlaties dzēst šo lietotāju?')) {
+                        fetch(`/delete_user/${userId}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // noņemt datu rindu
+                                document.getElementById(`user_row_${userId}`).remove();
+                            } else {
+                                alert('Kļūda dzēšot lietotāju');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
                     }
-                });
+                }
+
+
                 </script>
                 
             </div>

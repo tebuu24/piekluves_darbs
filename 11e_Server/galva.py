@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -115,7 +115,16 @@ def atslegas():
 
     return render_template('atslegas.html', atslegas=atslegas)
 
-#edit user cerams 
+#dzēst lietotāju no admin panel lapas 
+@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    try:
+        cursor.execute("DELETE FROM darbinieki WHERE id = ?", (user_id,))
+        conn.commit()
+        return jsonify({'message': 'Lietotājs ir dzēsts'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500  # kļūdas ziņojums
+
 
 if __name__ == '__main__':
     app.run(debug=True)

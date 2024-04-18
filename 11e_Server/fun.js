@@ -1,15 +1,22 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('darbinieki.db');
-
 function deleteUser(userId) {
-    const query = `DELETE FROM users WHERE id = ?`;
-    db.run(query, [userId], function(err) {
-        if (err) {
-            console.error('Dzēšanas kļūda:', err);
-        } else {
-            console.log('Lietotājs veiksmīgi dzēsts');
-        }
-    });
+    // Confirm deletion
+    if (confirm('Vai jūs vēlaties dzēst šo lietotāju')) {
+        // Send DELETE request to Flask server
+        fetch(`/delete_user/${userId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Remove the row from the HTML table
+                document.getElementById(`user_row_${userId}`).remove();
+            } else {
+                // Display error message if deletion fails
+                alert('Kļūda dzēšot lietotāju');
+            }
+        })
+        .catch(error => {
+            // Handle network or server errors
+            console.error('Error:', error);
+        });
+    }
 }
-
-deleteUser(user_id);

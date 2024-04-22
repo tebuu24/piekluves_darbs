@@ -56,6 +56,21 @@
                 </form>
                 
                 <script>
+                    // flash ziņas
+                    function handleFlashMessages() {
+                        // vai ir flash ziņas
+                        let messages = document.getElementsByClassName('flash-message');
+                        for (let i = 0; i < messages.length; i++) {
+                            let message = messages[i];
+                            alert(message.innerText);
+                        }
+                    }
+
+                    // izsauc funkciju, kad lapa ir atjaunota
+                    window.onload = function() {
+                        handleFlashMessages();
+                    };
+
                     document.getElementById('myForm').addEventListener('submit', function(event) {
                         var parole = document.getElementById('parole').value;
                         var parole_atskaites = document.getElementById('parole_atskaites').value;

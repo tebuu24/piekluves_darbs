@@ -80,15 +80,13 @@ def admin():
     return render_template('admin.html')
 
 # Admin panelis, kur var pievienot jaunu lietotāju un redzēt datubāzes datus
-# Admin panel page with employee data
 @app.route('/admin_panel')
 def admin_panel():
-    # Fetch all employees from darbinieki table
     cursor.execute("SELECT * FROM darbinieki")
     darbinieki = cursor.fetchall()
     return render_template('admin_panel.html', darbinieki=darbinieki)
 
-# Add user route
+# pievienot lietotāju
 @app.route('/add_user', methods=['POST'])
 def add_user():
     vards = request.form['vards']
@@ -97,15 +95,19 @@ def add_user():
     parole = request.form['parole']
     parole_atskaites = request.form['parole_atskaites']
 
-    # Check if passwords match
+    # vai paroles sakrīt
     if parole != parole_atskaites:
-        return ({'message': 'Paroles nesakrīt!', 'type': 'danger'})
+        flash('Paroles nesakrīt!', 'danger')
+    else:
+        # ievietot datubāzes tabulā
+        cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
+                       (vards, uzvards, tituls, parole))
+        conn.commit()
+        flash('Darbinieks veiksmīgi pievienots!', 'success')
+    
+    # atpakaļ uz admin_panel lapu
+    return redirect(url_for('admin_panel'))
 
-    # Insert data into darbinieki table
-    cursor.execute("INSERT INTO darbinieki (vards, uzvards, tituls, parole) VALUES (?, ?, ?, ?)",
-                   (vards, uzvards, tituls, parole))
-    conn.commit()
-    return ({'message': 'Darbinieks veiksmīgi pievienots!', 'type': 'success'})
 
 # Atslēgu informācijas route
 @app.route('/atslegas')
@@ -123,7 +125,7 @@ def delete_user(user_id):
         conn.commit()
         return jsonify({'message': 'Lietotājs ir dzēsts'}), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500  # kļūdas ziņojums
+        return jsonify({'error': str(e)}), 500 
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="lv">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +8,19 @@
 </head>
 <body>
     <div class="login-container">
-        <form class="login-form" action="atslegas" method="POST">
+        <form class="login-form" action="/login" method="POST">
             <h2>Pieslēgšanās</h2>
             <div class="form-group">
-                <label for="username">Lietotājvārds</label>
-                <input type="text" id="username" name="username" required>
+                <label for="vards">Vārds</label>
+                <input type="text" id="vards" name="vards" required>
             </div>
             <div class="form-group">
-                <label for="password">Parole</label>
-                <input type="password" id="password" name="password" required>
+                <label for="uzvards">Uzvārds</label>
+                <input type="text" id="uzvards" name="uzvards" required>
+            </div>
+            <div class="form-group">
+                <label for="parole">Parole</label>
+                <input type="password" id="parole" name="parole" required>
             </div>
             <button type="submit">Ieiet</button>
         </form>

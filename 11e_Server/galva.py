@@ -44,24 +44,27 @@ conn.commit()
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        lietotajvards = request.form['lietotajvards']
+        vards = request.form['vards']
+        uzvards = request.form['uzvards']
         parole = request.form['parole']
 
-        # Pārbauda, vai lietotājvārds un parole ir admin
-        if lietotajvards == 'admin' and parole == 'adminparole':
+        # Check if user exists in the database
+        cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND uzvards = ? AND parole = ?", (vards, uzvards, parole))
+        user = cursor.fetchone()
+        
+        if user:
             flash('Veiksmīga pieteikšanās!', 'success')
-            return redirect(url_for('admin_panel'))  # Novirza uz admin paneļa lapu
+            return redirect(url_for('atslegas'))  # Redirect to the 'atslegas' page upon successful login
         else:
-            # Pārbauda, vai lietotājs eksistē datubāzē
-            cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND parole = ?", (lietotajvards, parole))
-            lietotajs = cursor.fetchone()
-            if lietotajs:
-                flash('Veiksmīga pieteikšanās!', 'success')
-                return redirect(url_for('atslegas'))  # Novirza uz atslēgu lapu
-            else:
-                flash('Nepareizs lietotājvārds vai parole.', 'danger')
+            flash('Nepareizs lietotājvārds vai parole.', 'danger')
 
+    # If the request method is GET or if the login attempt was unsuccessful, render the login page
     return render_template('login.html')
+
+
+
+
+
 
 #admin pieslēgšanās lapa
 @app.route('/admin', methods=['GET', 'POST'])

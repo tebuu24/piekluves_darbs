@@ -1,4 +1,4 @@
-/*smuki fontini*/
+/* Fonti */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,20 +6,20 @@ body {
     background-color: #f4f4f4;
 }
 
-/*label stils*/
+/* Stils labeliem */
 label {
     display: block;
     margin-bottom: 5px;
     color: #333;
 }
 
-/*heading stils*/
+/* Stils virsrakstiem */
 h1 {
     text-align: center;
     color: #333;
 }
 
-/*teksta un paroles kastes*/
+/* Stils teksta un parolei */
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -30,6 +30,7 @@ input[type="password"] {
     box-sizing: border-box;
 }
 
+/* Stils submit pogai */
 input[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -44,6 +45,7 @@ input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+/* Formas stils */
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -52,7 +54,8 @@ form {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-/*login poga --------------------------------------------------------------------*/
+
+/* Stils submit pogai formā */
 button[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -61,15 +64,15 @@ button[type="submit"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s; /*neliels transition laiks lai smukak*/
+    transition: background-color 0.3s; /* Ļoti neliels pārejas laiks, lai būtu skaistāks */
 }
 
-/*kad pariet pari login pogai vina klust tumsaka*/
+/* Pārietot pāri pogai, tā kļūst tumšāka */
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* login viss-------------------------------------*/
+/* Visas reizes pieteikšanās konteineris */
 .login-container {
     position: relative;
     display: flex;
@@ -83,19 +86,21 @@ button[type="submit"]:hover {
     padding: 20px;
     border-radius: 8px;
 }
+
+/* Admina konteiners */
 .admin-container {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('skolasgaitenis.jpg'); /*'xxxx.jpg' ir musu bildes nos, kas tiks izmantots */
-    background-size: cover; /* attēls pārklās visu fonu */
-    background-repeat: no-repeat; /* dazreiz problema ka atkartojas, sis to salabo*/
-    background-position: center; /* ta lai ir centra un musu zoss var but labi redzama :)  */
+    background-image: url('skolasgaitenis.jpg'); /* Izmantojam mūsu bildes nosaukumu */
+    background-size: cover; /* Attēls pārklāj visu fonu */
+    background-repeat: no-repeat; /* Dažreiz problēmas ar atkārtošanos, tā to risina */
+    background-position: center; /* Centrē attēlu */
 }
 
-/*login kaste*/
+/* Pieteikšanās kastīte */
 .login-form {
     position: relative;
     background-color: #fff;
@@ -103,35 +108,37 @@ button[type="submit"]:hover {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-/*ari loginaa, ta lai virsraksts smuki sedetu pareizajaa vietaa*/
+
+/* Visas reizes forma */
 .form-group {
     margin-bottom: 20px;
 }
 
+/* Slēptā poga */
 .hidden-button {
     position: absolute;
-    top: 10px; /* augsas pozicija, var mainit */
-    left: 10px; /* kreisa puse, var mainit ja vajag */
-    width: 10px; /* punktina saspiedums */
-    height: 15px; /* punktina augstums */
-    background-color: #000; /* punktina krasa */
-    border-radius: 50%; /* ta lai ir aplis */
+    top: 10px; /* Augšējā pozīcija, var mainīt */
+    left: 10px; /* Kreisā puse, var mainīt, ja nepieciešams */
+    width: 10px; /* Pogas izmērs */
+    height: 15px; /* Pogas augstums */
+    background-color: #000; /* Pogas krāsa */
+    border-radius: 50%; /* Lai ir apaļš */
     cursor: pointer;
-    opacity: 0; /* ta lai no sakuma ir slepts */
-    z-index: -1; /* aiz visiem citiem elem */
+    opacity: 0; /* Sākotnēji slēpts */
+    z-index: -1; /* Aiz visiem citiem elementiem */
 }
 
-
-
+/* Visas reizes konteiners */
 .container {
     display: flex;
     justify-content: center; /* Horizontāli centrs */
     align-items: center; /* Vertikāli centrs */
     height: 100vh;
-    margin: 0; /* Set margins to 0 */
+    margin: 0; /* Iestatīt marģīnes uz 0 */
     background-color: rgba(255, 255, 255, 0); 
 }
 
+/* Admina konteiners */
 .admin-container {
     display: flex;
     justify-content: space-around; /* Lai konteineri būtu vienmērīgi izkaisīti */
@@ -143,6 +150,7 @@ button[type="submit"]:hover {
     background-position: center;
 }
 
+/* Admina kaste */
 .admin-box {
     flex: 1;
     background-color: rgb(255, 255, 255); 
@@ -162,6 +170,7 @@ button[type="submit"]:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Tabulas */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -179,3 +188,42 @@ th, td {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+/* Stils konteineriem */
+.container {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    height: 100vh;
+    margin: 0; 
+}
+
+.left-container,
+.admin-container {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Pogu konteiners */
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 10px; 
+}
+
+/* Atslēgu pogas */
+.atslega-button {
+    width: 100%;
+    padding: 10px;
+    background-color: green; 
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+

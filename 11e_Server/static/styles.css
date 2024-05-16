@@ -141,24 +141,24 @@ button[type="submit"]:hover {
 /* Admina konteiners */
 .admin-container {
     display: flex;
-    justify-content: space-around; /* Lai konteineri būtu vienmērīgi izkaisīti */
-    align-items: center;
+    justify-content: space-around;
+    align-items: center; 
     width: 100%;
-    background-image: url('skolasgaitenis.jpg');
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center;
+    overflow: hidden; 
 }
 
-/* Admina kaste */
 .admin-box {
     flex: 1;
-    background-color: rgb(255, 255, 255); 
+    background-color: rgb(255, 255, 255);
     padding: 20px;
-    margin: 10px; /* Atstarpes starp konteineriem */
+    margin: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; 
+    max-height: calc(75vh - 80px); 
 }
+
+
 
 
 .right-container {

@@ -32,7 +32,6 @@
                                 <td>{{ darbinieks[4] }}</td>
                                 <td>
                                     <!-- Podzinas -->
-                                    <button onclick="editUser('{{ darbinieks[0] }}')">Rediģēt</button>
                                     <button onclick="deleteUser('{{ darbinieks[0] }}')">Dzēst</button>
                                 </td>
                                 
@@ -80,22 +79,7 @@
                             event.preventDefault();
                         }
                     });
-                    
-                function editUser(userId) {
-                    // Lietotāju datu ieguve
-                    fetch(`/get_user/${userId}`)
-                        .then(response => response.json())
-                        .then(user => {
-                            // Lietotāju datu ievade laukos
-                            document.getElementById('vards').value = user.vards;
-                            document.getElementById('uzvards').value = user.uzvards;
-                            document.getElementById('tituls').value = user.tituls;
-                            document.getElementById('parole').value = user.parole;
-                            // edit forma
-                            document.getElementById('editForm').style.display = 'block';
-                            document.getElementById('editForm').action = `/edit_user/${userId}`;
-                        });
-                }
+
 
                 function deleteUser(userId) {
                     // Apstiprināt dzēšanu

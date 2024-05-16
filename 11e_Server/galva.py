@@ -48,17 +48,17 @@ def login():
         uzvards = request.form['uzvards']
         parole = request.form['parole']
 
-        # Check if user exists in the database
+        # Vai lietotājs ir datu bāzē
         cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND uzvards = ? AND parole = ?", (vards, uzvards, parole))
         user = cursor.fetchone()
         
         if user:
             flash('Veiksmīga pieteikšanās!', 'success')
-            return redirect(url_for('atslegas'))  # Redirect to the 'atslegas' page upon successful login
+            return redirect(url_for('atslegas'))  # veiksmīga pieslēgšanās -> atslēgas mājaslapa
         else:
             flash('Nepareizs lietotājvārds vai parole.', 'danger')
 
-    # If the request method is GET or if the login attempt was unsuccessful, render the login page
+    # neveiksmīga pieslēgšanās -> atjauno lapu
     return render_template('login.html')
 
 
@@ -112,7 +112,7 @@ def add_user():
     return redirect(url_for('admin_panel'))
 
 
-# Atslēgu informācijas route
+# Atslēgu informācija
 @app.route('/atslegas')
 def atslegas():
     cursor.execute("SELECT * FROM atslegas")
@@ -120,7 +120,7 @@ def atslegas():
 
     return render_template('atslegas.html', atslegas=atslegas)
 
-#dzēst lietotāju no admin panel lapas 
+#dzēst lietotāju no admin_panel lapas 
 @app.route('/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     try:

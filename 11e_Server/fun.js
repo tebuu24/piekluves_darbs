@@ -1,6 +1,6 @@
-// Update the form submission event listener
+// Pievienot lietotāju datubāzē 
 document.getElementById('myForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // lai nevar tukšu ievadīt
     var formData = new FormData(this);
 
     fetch('/add_user', {
@@ -9,11 +9,9 @@ document.getElementById('myForm').addEventListener('submit', function(event) {
     })
     .then(response => response.json())
     .then(data => {
-        // Display the success message dynamically on the page
         alert(data.message);
         if (data.type === 'success') {
-            // Optionally, you can update the user list here without reloading the page
-            fetchUserList(); // Fetch and update the user list
+            fetchUserList();
         }
     })
     .catch(error => {
@@ -21,12 +19,12 @@ document.getElementById('myForm').addEventListener('submit', function(event) {
     });
 });
 
-// Function to fetch and update the user list (you can customize this according to your needs)
+// funkcija iegūt un atjaunot lietotāju sarakstu
 function fetchUserList() {
     fetch('/admin_panel')
     .then(response => response.text())
     .then(html => {
-        // Update the user list container with the new HTML content
+        // ievietot sarakstā no html lapas datus
         document.getElementById('userListContainer').innerHTML = html;
     })
     .catch(error => {

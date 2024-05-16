@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, session
 import sqlite3
 
 app = Flask(__name__)
@@ -47,20 +47,21 @@ def login():
         vards = request.form['vards']
         uzvards = request.form['uzvards']
         parole = request.form['parole']
-
-        # Vai lietotājs ir datu bāzē
+ 
+        # Check if user exists in the database
         cursor.execute("SELECT * FROM darbinieki WHERE vards = ? AND uzvards = ? AND parole = ?", (vards, uzvards, parole))
         user = cursor.fetchone()
-        
+       
         if user:
+            # Store username in session
+            session['username'] = f"{vards} {uzvards}"  # Combine first and last name
             flash('Veiksmīga pieteikšanās!', 'success')
-            return redirect(url_for('atslegas'))  # veiksmīga pieslēgšanās -> atslēgas mājaslapa
+            return redirect(url_for('atslegas'))  # Redirect to the 'atslegas' page upon successful login
         else:
             flash('Nepareizs lietotājvārds vai parole.', 'danger')
-
-    # neveiksmīga pieslēgšanās -> atjauno lapu
+   
+    # If the request method is GET or if the login attempt was unsuccessful, render the login page
     return render_template('login.html')
-
 
 
 
@@ -72,7 +73,6 @@ def admin():
     if request.method == 'POST':
         lietotajvards = request.form['lietotajvards']
         parole = request.form['parole']
-
         # Pārbauda, vai lietotājvārds un parole ir pareizi adminam
         if lietotajvards == 'admin' and parole == 'adminparole':
             flash('Veiksmīga pieteikšanās!', 'success')
@@ -107,18 +107,21 @@ def add_user():
                        (vards, uzvards, tituls, parole))
         conn.commit()
         flash('Darbinieks veiksmīgi pievienots!', 'success')
-    
     # atpakaļ uz admin_panel lapu
     return redirect(url_for('admin_panel'))
 
 
-# Atslēgu informācija
+# Atslēgu informācijas 
 @app.route('/atslegas')
 def atslegas():
-    cursor.execute("SELECT * FROM atslegas")
-    atslegas = cursor.fetchall()
-
-    return render_template('atslegas.html', atslegas=atslegas)
+    # Retrieve the current user from the session
+    current_user = session.get('username')
+    if current_user:
+        # Pass the current user to the template
+        return render_template('atslegas.html', username=current_user)
+    else:
+        flash('Please log in first.', 'danger')
+        return redirect(url_for('login'))
 
 #dzēst lietotāju no admin_panel lapas 
 @app.route('/delete_user/<int:user_id>', methods=['DELETE'])
@@ -129,6 +132,10 @@ def delete_user(user_id):
         return jsonify({'message': 'Lietotājs ir dzēsts'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500 
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -140,19 +140,27 @@ def delete_user(user_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Funkcija atslēgas pievienošanai datubāzē
 def add_atslega(atslegas_numurs, pieejamiba, komentars, kastes_nr):
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute('''
-                INSERT INTO atslegas (atslegas_numurs, pieejamiba, komentars, kastes_nr)
-                VALUES (?, ?, ?, ?)
-            ''', (atslegas_numurs, pieejamiba, komentars, kastes_nr))
-            conn.commit()
-        print("Atslēga veiksmīgi pievienota!")
+            # Pārbauda vai atslēga jau eksistē
+            cursor.execute("SELECT atslegas_id FROM atslegas WHERE atslegas_numurs = ?", (atslegas_numurs,))
+            existing_key = cursor.fetchone()
+
+            if existing_key is None:
+                cursor.execute('''
+                    INSERT INTO atslegas (atslegas_numurs, pieejamiba, komentars, kastes_nr)
+                    VALUES (?, ?, ?, ?)
+                ''', (atslegas_numurs, pieejamiba, komentars, kastes_nr))
+                conn.commit()
+                print("Atslēga veiksmīgi pievienota!")
+            else:
+                print("Atslēga ar šo numuru jau eksistē.")
     except sqlite3.Error as e:
         print("Kļūda pievienojot atslēgu:", e)
+
+        
 
 # Maršruts atslēgas pievienošanas lapas attēlošanai
 @app.route('/add_key', methods=['GET', 'POST'])
@@ -167,15 +175,36 @@ def add_key():
         return redirect(url_for('add_key'))
     return render_template('add_key.html')
 
-# Pievieno atslēgas no Python koda
+# Pievieno atslēgas 
 keys_to_add = [
+    {'atslegas_numurs': '201', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '205', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '206', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '207', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '211', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '212', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '213', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '301', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '304', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '305', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '306', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '310', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '311', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '311', 'pieejamiba': False, 'komentars': '', 'kastes_nr': 2},
+    {'atslegas_numurs': '1', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': '2', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': '3', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': '4', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': 'Aktu zāle', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
     {'atslegas_numurs': '10', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
-    {'atslegas_numurs': 'B2', 'pieejamiba': True, 'komentars': 'Serveru telpa', 'kastes_nr': 2},
-    {'atslegas_numurs': 'C3', 'pieejamiba': False, 'komentars': 'Noliktava', 'kastes_nr': 1},
-    # Pievieno vairāk atslēgu pēc nepieciešamības
+    {'atslegas_numurs': '11', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': '12', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': '13', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+    {'atslegas_numurs': '14', 'pieejamiba': True, 'komentars': '', 'kastes_nr': 1},
+
 ]
 
-# Pievieno atslēgas datubāzē no Python koda
+# Pievieno atslēgas datubāzē 
 for key in keys_to_add:
     add_atslega(key['atslegas_numurs'], key['pieejamiba'], key['komentars'], key['kastes_nr'])
 

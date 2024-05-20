@@ -109,6 +109,34 @@
             <!-- Labais konteineris - Izņemšanas saraksts -->
             <div class="admin-box">
                 <h2>Izsniegumu saraksts</h2>
+                    <table>
+                        <!-- Lietotāju tabula -->
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>darbinieks</th>
+                                <th>atslega</th>
+                                <th>laiks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Lietotāju saraksts no datubāzes -->
+                            {% for atslegainfo in atslegainfo %}
+                                <tr>
+                                    <td>{{ izsniegums[1] }}</td>
+                                    <td>{{ izsniegums[2] }}</td>
+                                    <td>{{ izsniegums[3] }}</td>
+                                    <td>{{ izsniegums[4] }}</td>
+                                    <td>
+                                        <!-- Podzinas -->
+                                        <button onclick="deleteAtslega('{{ izsniegums[0] }}')">Dzēst</button>
+                                    </td>
+                                    
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
                 <!-- Attēlot sarakstu -->
             </div>
         </div>

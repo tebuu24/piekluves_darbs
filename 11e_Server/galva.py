@@ -38,6 +38,7 @@ with get_db_connection() as conn:
             izsniegums_id INTEGER PRIMARY KEY AUTOINCREMENT,
             darbinieka_id INTEGER NOT NULL,
             atslegas_id TEXT NOT NULL,
+            sesija TEXT
             izsnieguma_laiks TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             komentars TEXT
         )
@@ -89,6 +90,14 @@ def admin_panel():
         darbinieki = cursor.fetchall()
     return render_template('admin_panel.html', darbinieki=darbinieki)
 
+def atslegas():
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM izsniegums")
+        atslegainfo = cursor.fetchall()
+    return render_template('admin_panel.html', atslegainfo=atslegainfo)
+
+
 # Pievieno lietotāju
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -127,6 +136,29 @@ def atslegas():
     else:
         flash('Lūdzu, pieslēdzieties vispirms.', 'danger')
         return redirect(url_for('login'))
+
+def selectKey():
+    sesija = session.get('username')
+
+    with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO izsniegums (sesija) VALUES (?)",
+                           ( sesija))
+            conn.commit()
+
+    return redirect(url_for('atslegas'))
+
+
+#atslēgas dzesana@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def deletAtslega(atslega_id):
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM izsniegums WHERE izsniegums_id = ?", (atslega_id,))
+            conn.commit()
+        return jsonify({'message': 'Atslēga ir dzēsta'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 

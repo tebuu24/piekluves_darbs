@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout</title>
+    <title>Atslēgas</title>
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
@@ -13,17 +13,17 @@
             <div class="left-subcontainer">
                 <h2>Vecais korpuss</h2>
                 <div class="button-container">
-                    <button class="atslega-button">1</button>
-                    <button class="atslega-button">2</button>
-                    <button class="atslega-button">3</button>
+                    {% for key in vecais_korpuss %}
+                        <button class="atslega-button">{{ key }}</button>
+                    {% endfor %}
                 </div>
             </div>
             <div class="right-subcontainer">
                 <h2>Jaunais korpuss</h2>
                 <div class="button-container">
-                    <button class="atslega-button">1</button>
-                    <button class="atslega-button">2</button>
-                    <button class="atslega-button">3</button>
+                    {% for key in jaunais_korpuss %}
+                        <button class="atslega-button">{{ key }}</button>
+                    {% endfor %}
                 </div>
             </div>
         </div>

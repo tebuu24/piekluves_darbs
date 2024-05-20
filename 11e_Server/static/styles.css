@@ -300,3 +300,14 @@ tr:nth-child(even) {
     cursor: pointer;
     font-size: 16px;
 }
+
+
+.atslega-button-available {
+    background-color: green;
+    color: white;
+}
+
+.atslega-button-unavailable {
+    background-color: red;
+    color: black;
+}

@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atslēgas</title>
     <link rel="stylesheet" href="static/styles.css">
+    <script>
+        let selectedKey = null;
+
+        function selectKey(button, keyId) {
+            // Deselect the previously selected button, if any
+            if (selectedKey) {
+                const wasAvailable = selectedKey.dataset.available === 'true';
+                selectedKey.style.backgroundColor = wasAvailable ? 'green' : 'red';
+                selectedKey.style.color = 'white';
+            }
+
+            // Select the new button
+            if (selectedKey !== button) {
+                button.style.backgroundColor = 'yellow';
+                button.style.color = 'black';
+                selectedKey = button;
+
+                // Assign the selected key ID to a variable
+                window.selectedKeyId = keyId;
+                console.log("Selected key ID:", keyId);  // For debugging purposes
+            } else {
+                // Deselect if the same button is clicked again
+                selectedKey = null;
+                window.selectedKeyId = null;
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container-atslegas">
@@ -17,16 +44,23 @@
                 <h2>Vecais korpuss</h2>
                 <div class="button-container">
                     {% for key in vecais_korpuss %}
-                        <button class="atslega-button">{{ key }}</button>
-                    {% endfor %}
+                    {% set button_class = 'atslega-button-available' if key.pieejamiba else 'atslega-button-unavailable' %}
+                    <button class="atslega-button {{ button_class }}"
+                        onclick="selectKey(this, '{{ key.atslegas_numurs }}')"
+                        data-available="{{ 'true' if key.pieejamiba else 'false' }}">{{ key.atslegas_numurs }}</button>
+                {% endfor %}
+                
                 </div>
             </div>
             <div class="right-subcontainer">
                 <h2>Jaunais korpuss</h2>
                 <div class="button-container">
                     {% for key in jaunais_korpuss %}
-                        <button class="atslega-button">{{ key }}</button>
-                    {% endfor %}
+                    {% set button_class = 'atslega-button-available' if key.pieejamiba else 'atslega-button-unavailable' %}
+                    <button class="atslega-button {{ button_class }}"
+                        onclick="selectKey(this, '{{ key.atslegas_numurs }}')"
+                        data-available="{{ 'true' if key.pieejamiba else 'false' }}">{{ key.atslegas_numurs }}</button>
+                {% endfor %}
                 </div>
             </div>
         </div>

@@ -117,16 +117,18 @@ def atslegas():
     if current_user:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT atslegas_numurs, kastes_nr FROM atslegas WHERE kastes_nr IN (1, 2)")
+            cursor.execute("SELECT atslegas_numurs, kastes_nr, pieejamiba FROM atslegas WHERE kastes_nr IN (1, 2)")
             keys = cursor.fetchall()
 
-        vecais_korpuss = [key['atslegas_numurs'] for key in keys if key['kastes_nr'] == 1]
-        jaunais_korpuss = [key['atslegas_numurs'] for key in keys if key['kastes_nr'] == 2]
+        vecais_korpuss = [{'atslegas_numurs': key['atslegas_numurs'], 'pieejamiba': key['pieejamiba']} for key in keys if key['kastes_nr'] == 1]
+        jaunais_korpuss = [{'atslegas_numurs': key['atslegas_numurs'], 'pieejamiba': key['pieejamiba']} for key in keys if key['kastes_nr'] == 2]
 
         return render_template('atslegas.html', username=current_user, vecais_korpuss=vecais_korpuss, jaunais_korpuss=jaunais_korpuss)
     else:
         flash('Lūdzu, pieslēdzieties vispirms.', 'danger')
         return redirect(url_for('login'))
+
+
 
 # Izrakstīšanās maršruts
 @app.route('/logout')

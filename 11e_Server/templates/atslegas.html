@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <div class="container-astlegas">
+    <div class="container-atslegas">
         <h1>Labdien, {{ username }}!</h1>
+        <div class="logout-container">
+            <button class="logout-button" onclick="location.href='{{ url_for('logout') }}'">Izrakstīties</button>
+        </div>
         <div class="top-container">
             <div class="left-subcontainer">
                 <h2>Vecais korpuss</h2>

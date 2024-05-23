@@ -9,24 +9,21 @@
         let selectedKey = null;
 
         function selectKey(button, keyId) {
-            // Deselect the previously selected button, if any
+            // atiestata izvēlēto atslēgu
             if (selectedKey) {
                 const wasAvailable = selectedKey.dataset.available === 'true';
                 selectedKey.style.backgroundColor = wasAvailable ? 'green' : 'red';
                 selectedKey.style.color = 'white';
             }
 
-            // Select the new button
+            // izvēlas jaunu pogu
             if (selectedKey !== button) {
                 button.style.backgroundColor = 'yellow';
                 button.style.color = 'black';
                 selectedKey = button;
-
-                // Assign the selected key ID to a variable
                 window.selectedKeyId = keyId;
-                console.log("Selected key ID:", keyId);  // For debugging purposes
+                console.log("Selected key ID:", keyId); 
             } else {
-                // Deselect if the same button is clicked again
                 selectedKey = null;
                 window.selectedKeyId = null;
             }
